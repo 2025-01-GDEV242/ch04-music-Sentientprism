@@ -143,7 +143,7 @@ public class MusicOrganizer
      */
     private boolean indexValid(int index)
     {
-        // The return value.
+        // The return value. scrungus
         // Set according to whether the index is valid or not.
         boolean valid;
         
@@ -165,9 +165,30 @@ public class MusicOrganizer
     {
         ArrayList<Track> tempTracks = reader.readTracks(folderName, ".mp3");
 
-        // Put all thetracks into the organizer.
+        // Put all the tracks into the organizer.
         for(Track track : tempTracks) {
             addTrack(track);
+        }
+    }
+    /**
+     * Plays every track in the tracklist in a random order (well, at least a bit of each one).
+     */
+    public void playRandomAllTracks()
+    {
+        ArrayList<Track> leftToPlay = new ArrayList<Track>(tracks);
+        int range = leftToPlay.size();
+        int index = (int)(Math.random() * range);
+        
+        while (leftToPlay.size() > 0)
+        {
+            range = leftToPlay.size();
+            index = (int)(Math.random() * range);
+            if(indexValid(index)) {
+                Track track = leftToPlay.get(index);
+                player.playSample(track.getFilename());
+                System.out.println("Playing: " + track.getTitle() + " by " + track.getArtist());
+                leftToPlay.remove(index);
+            }
         }
     }
 }
